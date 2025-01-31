@@ -44,7 +44,7 @@ mainPageRouter.get('/', (c) => {
     const headerStyle = css`
         text-align: center;
         margin-top: 50px;
-        font-size: 24px;
+        font-size: 64px;
         font-weight: bold;
     `;
 
@@ -52,12 +52,13 @@ mainPageRouter.get('/', (c) => {
     const buttonStyle = css`
         display: block;
         margin: 20px auto;
-        padding: 10px 20px;
+        padding: 20px 40px;
         background-color: #007bff;
         color: white;
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        font-size: 24px;
 
         &:hover {
             background-color: #0056b3;
@@ -67,19 +68,25 @@ mainPageRouter.get('/', (c) => {
     const resetButtonStyle = css`
         display: block;
         margin: 20px auto;
-        padding: 10px 20px;
+        padding: 20px 40px;
         background-color: #dc3545; /* 赤系のボタン */
         color: white;
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        font-size: 24px;
 
         &:hover {
             background-color: #a71d2a;
         }
     `;
 
-
+    const buttonContainerStyle = css`
+        display: flex;
+        justify-content: center;
+        gap: 5px; /* 🎯 ボタンの間隔 */
+        margin-top: 20px;
+    `;
 
     // **とりまJS**
     const script = `
@@ -207,7 +214,7 @@ mainPageRouter.get('/', (c) => {
             </head>
             <body>
                 <h1 class={headerStyle}>メロディ生成君</h1>
-                <div>
+                <div class={buttonContainerStyle}>
                     <button id="generate-btn" class={buttonStyle}>生成！</button>
                     <button id="reset-btn" class={resetButtonStyle}>リセット</button>
                 </div>
