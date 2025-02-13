@@ -15,10 +15,11 @@ compatibility_date = "2025-01-10"
 # binding = "MY_BUCKET"
 # bucket_name = "my-bucket"
 
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "my-database"
-# database_id = ""
+[[d1_databases]]
+binding = "DB"
+database_name = "d1-tutorial"
+database_id = "47b1ce96-5fb1-4210-bf24-77418c7724b3"
+migrations_dir = "drizzle"
 
 # [ai]
 # binding = "AI"

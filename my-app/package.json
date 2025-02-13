@@ -2,13 +2,18 @@
   "name": "my-app",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy --minify"
+    "deploy": "wrangler deploy --minify",
+    "generate": "drizzle-kit generate",
+    "local:migration": "wrangler d1 migrations apply d1-tutorial --local",
+    "remote:migration": "wrangler d1 migrations apply d1-tutorial --remote"
   },
   "dependencies": {
+    "drizzle-orm": "^0.39.3",
     "hono": "^4.6.16"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241218.0",
+    "drizzle-kit": "^0.30.4",
     "wrangler": "^3.96.0"
   }
 }

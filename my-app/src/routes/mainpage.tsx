@@ -1,6 +1,8 @@
 import { Hono } from 'hono';
 import { css, cx, keyframes, Style } from 'hono/css';
 import { basicAuth } from 'hono/basic-auth';
+import { drizzle } from "drizzle-orm/d1";
+import { users } from "../../schema";
 
 const mainPageRouter = new Hono();
 const app = new Hono();
@@ -34,9 +36,9 @@ mainPageRouter.get('/', (c) => {
     // ト音記号のスタイル
     const clefStyle = css`
         position: absolute;
-        top: 10px;
+        top: -3px;
         left: -10px;
-        width: 100px;
+        width: 120px;
         height: auto;
     `;
 
@@ -96,6 +98,36 @@ mainPageRouter.get('/', (c) => {
             const sheet = document.getElementById("music-sheet");
             let noteCount = 0;
             const maxNotes = 25;
+
+            function saveNotes() {
+                const notes = Array.from(sheet.children).map(note => ({
+                    src: note.src,
+                    top: note.style.top,
+                    left: note.style.left,
+                    width: note.style.width,
+                    transform: note.style.transform
+                }));
+                sessionStorage.setItem("notes", JSON.stringify(notes));
+            }
+
+            function loadNotes() {
+                const notesData = sessionStorage.getItem("notes");
+                if (notesData) {
+                    const notes = JSON.parse(notesData);
+                    notes.forEach(noteData => {
+                        const noteImg = document.createElement("img");
+                        noteImg.src = noteData.src;
+                        noteImg.className = "note";
+                        noteImg.style.position = "absolute";
+                        noteImg.style.top = noteData.top;
+                        noteImg.style.left = noteData.left;
+                        noteImg.style.width = noteData.width;
+                        noteImg.style.transform = noteData.transform;
+                        sheet.appendChild(noteImg);
+                    });
+                    noteCount = notes.length;
+                }
+            }
 
             button.addEventListener("click", function() {
                 if (noteCount >= maxNotes) return;
@@ -185,8 +217,11 @@ mainPageRouter.get('/', (c) => {
                 if (noteCount >= maxNotes) {
                     button.disabled = true;
                     button.style.backgroundColor = "gray";
+                    console.log("a");
                     button.style.cursor = "not-allowed";
                 }
+
+                saveNotes();
             });
 
             // **リセットボタンの処理**
@@ -203,6 +238,8 @@ mainPageRouter.get('/', (c) => {
                 button.style.backgroundColor = "#007bff"; // **元の色に戻す**
                 button.style.cursor = "pointer";
             });
+            
+            loadNotes();
         });
     `;
 
